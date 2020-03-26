@@ -1,0 +1,74 @@
+<% include ../partials/header %>
+<% include ../partials/menu %>
+	<div class="container">
+		<br>
+		<div class="jumbotron">
+		  <h1 class="display-4">Fall 2018 Stats</h1>
+		  <p class="lead">Detailed information on how the Buffs are doing in the 2018 Football Season!</p>
+		</div>
+
+		<table class="table table-bordered" id="stats_table">
+			<tr>
+				<th class="align-bottom" rowspan="2">Game Date</th>
+				<th class="align-bottom"rowspan="2">Opposing Team Name</th>
+				<th class="text-center" colspan="2">Score</th>
+				<th class="align-bottom" rowspan="2">Winner</th>
+			</tr>
+			<tr>
+				<th>Home Score</th>
+				<th>Opp. Score</th>
+			</tr>
+			<!-- TODO: Iterate over the Football_table data here
+						1. Display the information for each row (date, name, home score, visitor score)
+						2. Determine who the winner is and display it in the final column
+
+						If you're not sure how the logic should work here, review the code you add to the client-side javascript
+						that ran onload for Lab 5.  We are doing the same kind of operations we had in Lab 5, but we are instead having
+						everything handled via server-side scriptes
+			-->
+
+		</table>
+		<!-- an attempt at populating the table with data from the database -->
+		<%
+		var loadStatScript = "<script>" +
+			"var tableStats = document.getElementById('stats_table');"
+			//loop which parses the table
+				+"for (var i = 1; i < data.length + 1; i++){"
+				+"var row = tableStats.insertRow(i + 1);"
+				+"var cell1 = row.insertCell(0);"
+				+"var cell2 = row.insertCell(1);"
+				+"var cell3 = row.insertCell(2);"
+				+"var cell4 = row.insertCell(3);"
+				+"cell1.innerHTML = data[i - 1].game_date;"
+				+"cell2.innerHTML = data[i - 1].visitor_name;"
+				+"cell3.innerHTML = data[i - 1].home_score + '/' + data[i - 1].visitor_score;"
+				//home loss
+				+"if(data[i - 1].home_score < data[i - 1].visitor_score){"
+					+"cell4.innerHTML = data[i - 1].visitor_name;"
+				+"}"
+				// home win
+				+"else if(data[i - 1].home_score > data[i - 1].visitor_score){"
+					+"cell4.innerHTML = 'CU Boulder';"
+				+"}"
+				+"else{//tie"
+					+"cell4.innerHTML = 'Draw';"
+				+"}"
+			+"}"
+		+"</script>"%>
+		<%- loadStatScript %>
+		<br>
+		<table class="table text-center">
+			<tr>
+				<th>Wins</th>
+				<th>Losses</th>
+			</tr>
+			<tr>
+				<td> <!-- TODO: Display the total number of wins here.
+							    This value should come from your server.js files query, don't calculate it in this file! --></td>
+				<td> <!-- TODO: Display the total number of losses here.
+							    This value should come from your server.js files query, don't calculate it in this file! --></td>
+			</tr>
+		</table>
+
+	</div>
+<% include ../partials/footer %>
